@@ -1,6 +1,25 @@
 {
-  "name": "@nivara/web", "private": true, "version": "0.1.0", "type": "module",
-  "scripts": { "dev": "vite", "build": "tsc -b && vite build" },
-  "dependencies": { "@react-oauth/google": "latest", "@vitejs/plugin-react": "latest", "framer-motion": "latest", "lucide-react": "latest", "react": "latest", "react-dom": "latest", "recharts": "latest" },
-  "devDependencies": { "typescript": "latest", "vite": "latest", "@types/react": "latest", "@types/react-dom": "latest" }
+  "name": "@nivara/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build"
+  },
+  "dependencies": {
+    "@react-oauth/google": "latest",
+    "@vitejs/plugin-react": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "recharts": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "latest",
+    "vite": "latest"
+  }
 }
