@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "FinancialProfile" ADD COLUMN     "bonusAmount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "bonusFrequency" TEXT NOT NULL DEFAULT 'NONE',
+ADD COLUMN     "incomeFrequency" TEXT NOT NULL DEFAULT 'MONTHLY';

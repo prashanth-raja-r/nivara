@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LoanKind {
+  PERSONAL
+  CREDIT_CARD
+  HOME
+  JEWEL
+  VEHICLE
+  OVERDRAFT
+}
+
+enum PaymentKind {
+  EMI
+  EXTRA
+  INTEREST_RENEWAL
+}
+
+enum ShareRole {
+  VIEWER
+  EDITOR
+}
+
+model Loan {
+  id            String   @id @default(cuid())
+  userId        String?
+  name          String
+  kind          LoanKind
+  principal     Float
+  outstanding   Float
+  interestRate  Float
+  termMonths    Int
+  emi           Float    @default(0)
+  startDate     DateTime
+  paymentDueDay Int      @default(5)
+  createdAt     DateTime @default(now())
+  payments      Payment[]
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Payment {
+  id        String      @id @default(cuid())
+  loanId    String
+  amount    Float
+  date      DateTime
+  kind      PaymentKind
+  loan      Loan        @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String?
+  googleId     String?  @unique
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  financialProfile FinancialProfile?
+  documents      Document[]
+  sharesOwned    FamilyShare[] @relation("ShareOwner")
+  sharesReceived FamilyShare[] @relation("ShareRecipient")
+  loans          Loan[]
+}
+
+model FamilyShare {
+  id          String    @id @default(cuid())
+  ownerId     String
+  recipientId String?
+  email       String
+  role        ShareRole @default(VIEWER)
+  status      String    @default("PENDING")
+  createdAt   DateTime  @default(now())
+  owner       User      @relation("ShareOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  recipient   User?     @relation("ShareRecipient", fields: [recipientId], references: [id], onDelete: SetNull)
+  @@unique([ownerId, email])
+}
+
+model FinancialProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  monthlyIncome     Float    @default(0)
+  essentialExpenses Float    @default(0)
+  monthlySavings    Float    @default(0)
+  emergencyFund     Float    @default(0)
+  incomeFrequency   String   @default("MONTHLY")
+  bonusAmount       Float    @default(0)
+  bonusFrequency    String   @default("NONE")
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  userId    String
+  loanId    String?
+  name      String
+  mimeType  String
+  sizeBytes Int
+  path      String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

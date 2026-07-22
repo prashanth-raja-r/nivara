@@ -1,0 +1,7 @@
+{
+  "name": "nivara-finance",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": { "dev": "concurrently \"npm run dev -w @nivara/web\" \"npm run dev -w @nivara/api\"", "build": "npm run build -w @nivara/web && npm run build -w @nivara/api", "db:generate": "npm run prisma:generate -w @nivara/database", "db:migrate": "npm run prisma:migrate -w @nivara/database" },
+  "devDependencies": { "concurrently": "^9.1.2" }
+}
