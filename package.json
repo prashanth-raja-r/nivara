@@ -2,6 +2,7 @@
   "name": "nivara-finance",
   "private": true,
   "workspaces": ["apps/*", "packages/*"],
-  "scripts": { "dev": "concurrently \"npm run dev -w @nivara/web\" \"npm run dev -w @nivara/api\"", "build": "npm run build -w @nivara/web && npm run build -w @nivara/api", "db:generate": "npm run prisma:generate -w @nivara/database", "db:migrate": "npm run prisma:migrate -w @nivara/database" },
+  "scripts": { "dev": "concurrently \"npm run dev -w @nivara/web\" \"npm run dev -w @nivara/api\"", "build": "npm run build -w @nivara/web && npm run build -w @nivara/api", "build:web": "npm run build -w @nivara/web", "build:api": "npm run build -w @nivara/api", "start:api": "npm run start -w @nivara/api", "db:generate": "npm run prisma:generate -w @nivara/database", "db:migrate": "npm run prisma:migrate -w @nivara/database", "db:deploy": "npm run prisma:deploy -w @nivara/database", "db:assign-legacy-loans": "npm run assign-legacy-loans -w @nivara/database --" },
+  "engines": { "node": ">=20.19.0" },
   "devDependencies": { "concurrently": "^9.1.2" }
 }
